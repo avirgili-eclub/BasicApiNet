@@ -1,0 +1,6 @@
+@BasicApiNet.Host_HostAddress = http://localhost:5228
+
+GET {{BasicApiNet.Host_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
