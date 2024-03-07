@@ -1,8 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BasicApiNet.Core.Models;
 
-public class Country
+public class Country : BaseEntity
 {
-    public int Id { get; set; }
+    [Key]
+    public int Id { get; init; }
     public string Name { get; set; }
-    public List<City> Cities { get; set; }
+    
+    public ICollection<City> Cities { get; } = new List<City>();
 }

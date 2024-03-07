@@ -1,14 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Access", "BasicApiNet.Access\BasicApiNet.Access.csproj", "{E8642B6C-4F10-413F-9A77-A1F88AE5B833}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Infrastructure", "BasicApiNet.Infrastructure\BasicApiNet.Infrastructure.csproj", "{8C9C5C3F-878A-42CC-8FF1-C17B52EF0E78}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Tests", "Infrastructure.Tests\Infrastructure.Tests.csproj", "{679FBD87-79F7-4768-B794-FF032EC50629}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Core", "BasicApiNet.Core\BasicApiNet.Core.csproj", "{70F56B74-BF81-483A-9FE4-882E2C3DE93F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Host", "BasicApiNet.Host\BasicApiNet.Host.csproj", "{05102EEB-7B8A-4B82-B64C-BA0A5109FEF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Access", "BasicApiNet.Access\BasicApiNet.Access.csproj", "{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,18 +12,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8642B6C-4F10-413F-9A77-A1F88AE5B833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8642B6C-4F10-413F-9A77-A1F88AE5B833}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8642B6C-4F10-413F-9A77-A1F88AE5B833}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8642B6C-4F10-413F-9A77-A1F88AE5B833}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C9C5C3F-878A-42CC-8FF1-C17B52EF0E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C9C5C3F-878A-42CC-8FF1-C17B52EF0E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C9C5C3F-878A-42CC-8FF1-C17B52EF0E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C9C5C3F-878A-42CC-8FF1-C17B52EF0E78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{679FBD87-79F7-4768-B794-FF032EC50629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{679FBD87-79F7-4768-B794-FF032EC50629}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{679FBD87-79F7-4768-B794-FF032EC50629}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{679FBD87-79F7-4768-B794-FF032EC50629}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70F56B74-BF81-483A-9FE4-882E2C3DE93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70F56B74-BF81-483A-9FE4-882E2C3DE93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70F56B74-BF81-483A-9FE4-882E2C3DE93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,5 +20,9 @@ Global
 		{05102EEB-7B8A-4B82-B64C-BA0A5109FEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05102EEB-7B8A-4B82-B64C-BA0A5109FEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05102EEB-7B8A-4B82-B64C-BA0A5109FEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
