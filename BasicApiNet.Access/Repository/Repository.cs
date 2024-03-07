@@ -22,23 +22,29 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         //return await _entities.AsAsyncEnumerable();
     }
 
+    public async Task<IReadOnlyList<T>> GetAllAsync()
+    {
+        return await _entities.ToListAsync();
+    }
+
     public async Task<T?> GetByIdAsync(int id)
     {
         return await _entities.SingleOrDefaultAsync(obj => obj.Id == id);
         //return await _entities.FindAsync(id);
     }
 
-    public async Task CreateAsync(T entity)
+    public void CreateAsync(T entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        await _entities.AddAsync(entity);
+        _entities.AddAsync(entity);
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task<T> UpdateAsync(T entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
         _entities.Update(entity);
         await _context.SaveChangesAsync();
+        return entity;
     }
 
     public async Task DeleteByIdAsync(int id)

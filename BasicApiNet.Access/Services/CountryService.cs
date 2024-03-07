@@ -10,7 +10,9 @@ namespace BasicApiNet.Access.Services;
 public class CountryService : ICommonService<Country>
 {
     private readonly IRepository<Country> _repository;
+
     private readonly ILogger<CountryService> _logger;
+
     //Se puede implementar un UnitOfWork para evitar el uso del contexto directamente o usar un repository
     //especifico y extender del generico para incluir a Cities
     //_entities.Include(e => ((Country)e).Cities).SingleOrDefaultAsync(obj => obj.Id == id);
@@ -31,10 +33,18 @@ public class CountryService : ICommonService<Country>
         return countries;
     }
 
-    public Country FinById(int id)
+    public async Task<IReadOnlyList<Country>> GetAllAsync()
+    {
+        _logger.LogInformation("GetAllAsync Countries");
+        var countries = await _repository.GetAllAsync();
+        _logger.LogInformation("Obtain {0} countries", countries.Count());
+        return countries;
+    }
+
+    public async Task<Country> FinByIdAsync(int id)
     {
         _logger.LogInformation("Find Country by Id: {0}", id);
-        var country =  _repository.GetByIdAsync(id).Result!;
+        var country = await _repository.GetByIdAsync(id);
         if (country != null)
         {
             _context.Entry(country).Collection(c => c.Cities).Load();
@@ -43,43 +53,45 @@ public class CountryService : ICommonService<Country>
         return country;
     }
 
-    public void Create(Country entity)
+    public async Task CreateAsync(Country entity)
     {
         try
         {
             _repository.CreateAsync(entity);
-            _repository.SaveChanges();
+            await _repository.SaveChanges();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             _logger.LogError("error creating country: {0}", e.Message);
             throw;
         }
     }
 
-    public void Update(Country entity)
+    public async Task<Country> UpdateAsync(Country country)
     {
         try
         {
-            _repository.UpdateAsync(entity);
+            var result = await _repository.UpdateAsync(country);
+            return result;
         }
         catch (Exception e)
         {
             _logger.LogError("Error updating country: {0}", e.Message);
             throw;
         }
-        
     }
 
-    public void Delete(Country entity)
+    public void DeleteById(int id)
     {
         try
         {
-            if(entity != null)
+            var country = _repository.GetByIdAsync(id);
+            if (country == null)
             {
-                _repository.DeleteByIdAsync(entity.Id);
-                _repository.SaveChanges();
+                throw new Exception("Country not found");
             }
+            _repository.DeleteByIdAsync(id);
+            _repository.SaveChanges();
         }
         catch (Exception e)
         {
