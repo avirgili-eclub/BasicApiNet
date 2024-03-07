@@ -38,6 +38,22 @@ public class CityController : ControllerBase
         }
 
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<City>> GetById(int id,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response = await _service.FindCityById(id);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return Ok(false);
+        }
+    }
+    
     [HttpPut]
     public async Task<ActionResult> Update(CityDto city,
         CancellationToken cancellationToken)
