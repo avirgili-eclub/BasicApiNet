@@ -43,14 +43,22 @@ public class CountryService : ICommonService<Country>
 
     public async Task<Country> FinByIdAsync(int id)
     {
-        _logger.LogInformation("Find Country by Id: {0}", id);
-        var country = await _repository.GetByIdAsync(id);
-        if (country != null)
+        try
         {
+            _logger.LogInformation("Find Country by Id: {0}", id);
+            var country = await _repository.GetByIdAsync(id);
+            if (country == null)
+            {
+                throw new Exception("Country not found");
+            }
             _context.Entry(country).Collection(c => c.Cities).Load();
+            return country;
         }
-
-        return country;
+        catch (Exception e)
+        {
+            _logger.LogError("Error finding country by id: {0}", e.Message);
+            throw;
+        }
     }
 
     public async Task CreateAsync(Country entity)
@@ -90,6 +98,7 @@ public class CountryService : ICommonService<Country>
             {
                 throw new Exception("Country not found");
             }
+
             _repository.DeleteByIdAsync(id);
             _repository.SaveChanges();
         }
