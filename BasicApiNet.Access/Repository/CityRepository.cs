@@ -1,4 +1,5 @@
 using BasicApiNet.Access.Data;
+using BasicApiNet.Core.Dtos;
 using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -30,9 +31,18 @@ public class CityRepository /*(DataContext context)*/ : ICityRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateCityAsync(City city)
+    public async Task UpdateCityAsync(CityDto city)
     {
-        _context.Entry(city).State = EntityState.Modified;
+        //  _context.Entry(city).State = EntityState.Modified;
+        // await _context.SaveChangesAsync();
+        var existingCity = await _context.Cities.FindAsync(city.Id);
+        if (existingCity == null)
+        {
+            throw new InvalidOperationException("City not found");
+        }
+        
+        _context.Entry(existingCity).CurrentValues.SetValues(city);
+        
         await _context.SaveChangesAsync();
     }
 

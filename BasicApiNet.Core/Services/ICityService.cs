@@ -1,3 +1,4 @@
+using BasicApiNet.Core.Dtos;
 using BasicApiNet.Core.Models;
 
 namespace BasicApiNet.Core.Services;
@@ -12,5 +13,5 @@ public interface ICityService
 
     void DeleteCityById(int id);
 
-    Task UpdateCity(City city);
+    Task UpdateCity(CityDto city);
 }

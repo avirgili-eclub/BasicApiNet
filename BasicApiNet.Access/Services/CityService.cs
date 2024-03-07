@@ -1,13 +1,18 @@
+using BasicApiNet.Core.Dtos;
 using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Repository;
 using BasicApiNet.Core.Services;
+using Microsoft.Extensions.Logging;
 
 namespace BasicApiNet.Access.Services;
 
-public class CityService(ICityRepository repository) : ICityService
+public class CityService(ICityRepository repository, ILogger<CityService> logger) : ICityService
 {
+    private readonly ILogger<CityService> _logger = logger;
+
     public Task<IEnumerable<City?>> GetAllCities()
     {
+        _logger.LogInformation("Getting all cities");
         return repository.GetCitiesAsync();
     }
 
@@ -26,8 +31,17 @@ public class CityService(ICityRepository repository) : ICityService
         repository.DeleteCityByIdAsync(id);
     }
 
-    public Task UpdateCity(City city)
+    public Task UpdateCity(CityDto city)
     {
-        return repository.UpdateCityAsync(city);
+        try
+        {
+            return repository.UpdateCityAsync(city);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error updating city");
+            throw;
+        }
+        
     }
 }
