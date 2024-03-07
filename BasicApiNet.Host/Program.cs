@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using BasicApiNet.Access.Data;
 using BasicApiNet.Access.Repository;
 using BasicApiNet.Access.Services;
@@ -9,6 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders().AddConsole();
+// Add logging
+builder.Services.AddLogging();
+// builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+// {
+//     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+// });
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();

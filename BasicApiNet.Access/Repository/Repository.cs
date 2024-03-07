@@ -16,9 +16,9 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         _entities = context.Set<T>();
     }
 
-    public async Task<IEnumerable<T?>> GetAllAsync()
+    public IQueryable<T?> GetAll()
     {
-        return await _entities.ToListAsync();
+        return _entities.AsQueryable();
         //return await _entities.AsAsyncEnumerable();
     }
 

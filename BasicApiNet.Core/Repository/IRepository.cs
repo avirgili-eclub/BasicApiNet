@@ -4,7 +4,7 @@ namespace BasicApiNet.Core.Repository;
 
 public interface IRepository<T> where T : BaseEntity
 {
-    Task<IEnumerable<T?>> GetAllAsync();
+    IQueryable<T?> GetAll();
     Task<T?> GetByIdAsync(int id);
     Task CreateAsync(T entity);
     Task UpdateAsync(T entity);
