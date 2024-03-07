@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Host", "BasicAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Access", "BasicApiNet.Access\BasicApiNet.Access.csproj", "{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicApiNet.Test", "BasicApiNet.Test\BasicApiNet.Test.csproj", "{BFDF59CB-8F11-4C75-947B-1660DF5401CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B153597-95B2-41C4-A9A3-AC5F36A9FC48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFDF59CB-8F11-4C75-947B-1660DF5401CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDF59CB-8F11-4C75-947B-1660DF5401CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDF59CB-8F11-4C75-947B-1660DF5401CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDF59CB-8F11-4C75-947B-1660DF5401CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
