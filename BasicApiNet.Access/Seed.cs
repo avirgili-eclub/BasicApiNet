@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BasicApiNet.Access;
 
-public class Seed
+public abstract class Seed
 {
-    public static async Task SeedData(ApplicationDbContext context)
+    private static async Task SeedData(ApplicationDbContext context)
     {
         if (context.Countries.Any())
         {

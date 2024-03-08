@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using BasicApiNet.Access;
 using BasicApiNet.Access.Data;
 using BasicApiNet.Access.Repository;
 using BasicApiNet.Access.Services;
@@ -51,17 +51,23 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Seed database
+//Seed.EnsureSeedData(app.Services).GetAwaiter().GetResult();
+await Seed.EnsureSeedData(app.Services);
+
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
