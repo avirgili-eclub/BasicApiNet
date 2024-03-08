@@ -8,11 +8,9 @@ namespace BasicApiNet.Access.Services;
 
 public class CityService(ICityRepository repository, ILogger<CityService> logger) : ICityService
 {
-    private readonly ILogger<CityService> _logger = logger;
-
     public Task<IEnumerable<City?>> GetAllCities()
     {
-        _logger.LogInformation("Getting all cities");
+        logger.LogInformation("Getting all cities");
         return repository.GetCitiesAsync();
     }
 
@@ -39,9 +37,39 @@ public class CityService(ICityRepository repository, ILogger<CityService> logger
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error updating city");
+            logger.LogError(e, "Error updating city");
             throw;
         }
         
+    }
+
+    public IEnumerable<Country> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<City>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<City> FinByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task CreateAsync(City entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<City> UpdateAsync(City country)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<City> DeleteById(int id)
+    {
+        throw new NotImplementedException();
     }
 }

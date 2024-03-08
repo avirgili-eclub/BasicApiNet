@@ -3,7 +3,7 @@ using BasicApiNet.Core.Models;
 
 namespace BasicApiNet.Core.Services;
 
-public interface ICityService
+public interface ICityService : ICommonService<City>
 {
     Task<IEnumerable<City?>> GetAllCities();
 

@@ -36,6 +36,7 @@ builder.Services.AddScoped(typeof(ICityRepository), typeof(CityRepository));
 builder.Services.AddScoped(typeof(ICountryRepository), typeof(CountryRepository));
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICommonService<Country>, CountryService>();
+builder.Services.AddScoped<ICountryService, CountryService>();
 #endregion
 
 #region other services injected

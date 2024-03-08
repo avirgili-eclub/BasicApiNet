@@ -1,3 +1,5 @@
+using BasicApiNet.Access;
+
 namespace BasicApiNet.Host;
 
 public class Startup
@@ -31,5 +33,7 @@ public class Startup
         {
             endpoints.MapControllers();
         });
+        
+        Seed.EnsureSeedData(app.ApplicationServices).GetAwaiter().GetResult();
     }
 }

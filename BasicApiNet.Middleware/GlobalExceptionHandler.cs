@@ -7,6 +7,7 @@ namespace BasicApiNet.Middleware;
 
 public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
+    //TODO: Se puede usar swtich case para manejar diferentes tipos de excepciones
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,

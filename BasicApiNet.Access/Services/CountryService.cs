@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BasicApiNet.Access.Services;
 
-public class CountryService : ICommonService<Country>
+public class CountryService : ICountryService
 {
     private readonly IRepository<Country> _repository;
 
