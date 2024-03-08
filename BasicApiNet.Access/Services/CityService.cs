@@ -21,14 +21,14 @@ public class CityService(ICityRepository repository, ILogger<CityService> logger
         return repository.CreateCityAsync(city);
     }
 
-    public Task<City?> FindCityById(int id)
+    public Task<City> FindCityById(int id)
     {
         return repository.GetCityByIdAsync(id);
     }
 
-    public void DeleteCityById(int id)
+    public async Task DeleteCityByIdAsync(int id)
     {
-        repository.DeleteCityByIdAsync(id);
+        await repository.DeleteCityByIdAsync(id);
     }
 
     public Task UpdateCity(CityDto city)

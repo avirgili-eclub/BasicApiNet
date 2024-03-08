@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BasicApiNet.Core\BasicApiNet.Core.csproj" />
+      <ProjectReference Include="..\BasicApiNet.Middleware\BasicApiNet.Middleware.csproj" />
     </ItemGroup>
 
     <ItemGroup>

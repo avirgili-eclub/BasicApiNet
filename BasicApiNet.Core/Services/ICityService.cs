@@ -9,9 +9,9 @@ public interface ICityService
 
     Task CreateCity(City city);
 
-    Task<City?> FindCityById(int id);
+    Task<City> FindCityById(int id);
 
-    void DeleteCityById(int id);
+    Task DeleteCityByIdAsync(int id);
 
     Task UpdateCity(CityDto city);
 }

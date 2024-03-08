@@ -2,6 +2,7 @@ using BasicApiNet.Access.Data;
 using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Repository;
 using BasicApiNet.Core.Services;
+using BasicApiNet.Middleware.CustomException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -29,7 +30,12 @@ public class CountryService : ICommonService<Country>
     {
         _logger.LogInformation("GetAll Countries");
         var countries = _repository.GetAll().Include(c => c.Cities).ToList();
-        _logger.LogInformation("Obtain {0} countries", countries.Count());
+        if (countries.Count == 0)
+        {
+            throw new NotFoundException("No countries found");
+        }
+
+        _logger.LogInformation("Obtain {} countries", countries.Count);
         return countries;
     }
 
@@ -37,7 +43,11 @@ public class CountryService : ICommonService<Country>
     {
         _logger.LogInformation("GetAllAsync Countries");
         var countries = await _repository.GetAllAsync();
-        _logger.LogInformation("Obtain {0} countries", countries.Count());
+        if (countries.Count == 0)
+        {
+            throw new NotFoundException("No countries found");
+        }
+
         return countries;
     }
 
@@ -45,19 +55,15 @@ public class CountryService : ICommonService<Country>
     {
         try
         {
-            _logger.LogInformation("Find Country by Id: {0}", id);
+            _logger.LogInformation("Find Country by Id: {}", id);
             var country = await _repository.GetByIdAsync(id);
-            if (country == null)
-            {
-                //Si se implementa una excepcion personalizada se puede manejar de manera mas especifica el not found.
-                throw new Exception("Country not found");
-            }
-            _context.Entry(country).Collection(c => c.Cities).Load();
+            NotFoundException.ThrowIfNull(country);
+            await _context.Entry(country).Collection(c => c.Cities).LoadAsync();
             return country;
         }
         catch (Exception e)
         {
-            _logger.LogError("Error finding country by id: {0}", e.Message);
+            _logger.LogError("Error finding country by id: {}", e.Message);
             throw;
         }
     }
@@ -71,7 +77,7 @@ public class CountryService : ICommonService<Country>
         }
         catch (Exception e)
         {
-            _logger.LogError("error creating country: {0}", e.Message);
+            _logger.LogError("error creating country: {}", e.Message);
             throw;
         }
     }
@@ -81,33 +87,27 @@ public class CountryService : ICommonService<Country>
         try
         {
             var result = await _repository.UpdateAsync(country);
+            if (result == null)
+            {
+                throw new Exception("There was a problem updating the country.");
+            }
+
             return result;
         }
         catch (Exception e)
         {
-            _logger.LogError("Error updating country: {0}", e.Message);
+            _logger.LogError("Error updating country: {}", e.Message);
             throw;
         }
     }
 
-    public void DeleteById(int id)
+    public async Task<Country> DeleteById(int id)
     {
-        try
-        {
-            var country = _repository.GetByIdAsync(id);
-            if (country == null)
-            {
-                //Si se implementa una excepcion personalizada se puede manejar de manera mas especifica el not found.
-                throw new Exception("Country not found");
-            }
-
-            _repository.DeleteByIdAsync(id);
-            _repository.SaveChanges();
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("Error deleting country: {0}", e.Message);
-            throw;
-        }
+        var country = await _repository.GetByIdAsync(id);
+        NotFoundException.ThrowIfNull(country);
+        await _repository.DeleteByIdAsync(id);
+        //throw new Exception("There was a problem deleting the country.");
+        await _repository.SaveChanges();
+        return country;
     }
 }

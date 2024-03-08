@@ -30,7 +30,6 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     public async Task<T?> GetByIdAsync(int id)
     {
         return await _entities.SingleOrDefaultAsync(obj => obj.Id == id);
-        //return await _entities.FindAsync(id);
     }
 
     public void CreateAsync(T entity)

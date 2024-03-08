@@ -38,6 +38,7 @@ public class CountryController : ControllerBase
         {
             return BadRequest("Invalid country");
         }
+
         try
         {
             await _service.CreateAsync(country);
@@ -50,7 +51,8 @@ public class CountryController : ControllerBase
     }
 
     [HttpPost]
-    [SwaggerOperation(Summary = "Create countries with their cities(optional)", Description = "Create a country with its cities(optional).")]
+    [SwaggerOperation(Summary = "Create countries with their cities(optional)",
+        Description = "Create a country with its cities(optional).")]
     [SwaggerResponse(200, "Success", typeof(bool))]
     [SwaggerResponse(400, "Bad Request", typeof(string))]
     [SwaggerResponse(500, "Internal Server Error", typeof(string))]
@@ -61,6 +63,7 @@ public class CountryController : ControllerBase
         {
             return BadRequest("Invalid country");
         }
+
         try
         {
             //La logicas de negocio para crear un pais con ciudades deberia ir en un manager service.
@@ -83,10 +86,12 @@ public class CountryController : ControllerBase
     [SwaggerResponse(500, "Internal Server Error", typeof(string))]
     public async Task<IActionResult> Update(Country country)
     {
-        if (country.Id == 0 || country.Id < 0 || string.IsNullOrEmpty(country.Name) || string.IsNullOrWhiteSpace(country.Name))
+        if (country.Id == 0 || country.Id < 0 || string.IsNullOrEmpty(country.Name) ||
+            string.IsNullOrWhiteSpace(country.Name))
         {
-               return BadRequest("Invalid country");
+            return BadRequest("Invalid country");
         }
+
         try
         {
             var countryUpdated = await _service.UpdateAsync(country);
@@ -109,6 +114,7 @@ public class CountryController : ControllerBase
         {
             return BadRequest("Invalid id");
         }
+
         try
         {
             var response = await _service.FinByIdAsync(id);
@@ -118,27 +124,20 @@ public class CountryController : ControllerBase
         {
             return StatusCode(500, $"Internal server error: {e.Message}");
         }
-
     }
 
     [HttpDelete("{id}")]
     [SwaggerOperation(Summary = "Delete country by id", Description = "Delete a country by id.")]
     [SwaggerResponse(200, "Success", typeof(bool))]
+    [SwaggerResponse(400, "Bad Request", typeof(string))]
     [SwaggerResponse(500, "Internal Server Error", typeof(string))]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         if (id is 0 or < 0)
         {
             return BadRequest("Invalid id");
         }
-        try
-        {
-            _service.DeleteById(id);
-            return Ok(true);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, $"Internal server error: {e.Message}");
-        }
+
+        return Ok(await _service.DeleteById(id));
     }
 }

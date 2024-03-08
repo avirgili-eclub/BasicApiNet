@@ -2,6 +2,7 @@ using BasicApiNet.Access.Data;
 using BasicApiNet.Core.Dtos;
 using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Repository;
+using BasicApiNet.Middleware.CustomException;
 using Microsoft.EntityFrameworkCore;
 
 namespace BasicApiNet.Access.Repository;
@@ -20,9 +21,11 @@ public class CityRepository /*(DataContext context)*/ : ICityRepository
         return await _context.Cities.ToListAsync();
     }
 
-    public async Task<City?> GetCityByIdAsync(int id)
+    public async Task<City> GetCityByIdAsync(int id)
     {
-        return await _context.Cities.FindAsync(id);
+        var city = await _context.Cities.FindAsync(id);
+        NotFoundException.ThrowIfNull(city);
+        return city;
     }
 
     public async Task CreateCityAsync(City city)
@@ -36,10 +39,8 @@ public class CityRepository /*(DataContext context)*/ : ICityRepository
         //  _context.Entry(city).State = EntityState.Modified;
         // await _context.SaveChangesAsync();
         var existingCity = await _context.Cities.FindAsync(city.Id);
-        if (existingCity == null)
-        {
-            throw new InvalidOperationException("City not found");
-        }
+        
+        NotFoundException.ThrowIfNull(existingCity);
         
         _context.Entry(existingCity).CurrentValues.SetValues(city);
         
@@ -49,7 +50,7 @@ public class CityRepository /*(DataContext context)*/ : ICityRepository
     public async Task DeleteCityByIdAsync(int id)
     {
         City? city = await _context.Cities.FindAsync(id);
-        ArgumentNullException.ThrowIfNull(city);
+        NotFoundException.ThrowIfNull(city);
         _context.Cities.Remove(city);
         await _context.SaveChangesAsync();
     }

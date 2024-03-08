@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BasicApiNet.Access\BasicApiNet.Access.csproj" />
+      <ProjectReference Include="..\BasicApiNet.Middleware\BasicApiNet.Middleware.csproj" />
     </ItemGroup>
 
 </Project>

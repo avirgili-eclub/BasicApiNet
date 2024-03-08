@@ -5,6 +5,8 @@ using BasicApiNet.Access.Services;
 using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Repository;
 using BasicApiNet.Core.Services;
+using BasicApiNet.Middleware;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +38,13 @@ builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<ICommonService<Country>, CountryService>();
 #endregion
 
+#region other services injected
+builder.Services.AddSingleton<IExceptionHandler, NotFoundExceptionHandler>();
+builder.Services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +53,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

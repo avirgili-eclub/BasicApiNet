@@ -9,5 +9,5 @@ public interface ICommonService<T> where T : class
     Task<T> FinByIdAsync(int id);
     Task CreateAsync(T entity);
     Task<T> UpdateAsync(T country);
-    void DeleteById(int id);
+    Task<T> DeleteById(int id);
 }

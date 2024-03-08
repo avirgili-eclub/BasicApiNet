@@ -22,65 +22,33 @@ public class CityController : ControllerBase
         Task<IEnumerable<City?>> response = _service.GetAllCities();
         return Ok(response);
     }
-    
-    [HttpPost]
-    public async Task<ActionResult> Create(City city,
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            await _service.CreateCity(city);
-            return Ok(true);
-        }
-        catch (Exception e)
-        {
-            return Ok(false);
-        }
 
+    [HttpPost]
+    public async Task<ActionResult<bool>> Create(City city)
+    {
+        await _service.CreateCity(city);
+        return Ok(true);
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<City>> GetById(int id,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<City>> GetById(int id)
     {
-        try
-        {
-            var response = await _service.FindCityById(id);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            return Ok(false);
-        }
+        var response = await _service.FindCityById(id);
+        return Ok(response);
     }
-    
+
     [HttpPut]
-    public async Task<ActionResult> Update(CityDto city,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> Update(CityDto city)
     {
-        try
-        {
-            await _service.UpdateCity(city);
-            return Ok(true);
-        }
-        catch (Exception e)
-        {
-            return Ok(false);
-        }
+        await _service.UpdateCity(city);
+        return Ok(true);
     }
+
     [HttpDelete]
-    public async Task<ActionResult> Delete(int id,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> Delete(int id)
     {
-        try
-        {
-            _service.DeleteCityById(id);
-            return Ok(true);
-        }
-        catch (Exception e)
-        {
-            return Ok(false);
-        }
+        //TODO: retornar boleando si efectivamente se elimino
+        await _service.DeleteCityByIdAsync(id);
+        return Ok(true);
     }
-    
 }
