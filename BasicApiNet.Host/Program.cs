@@ -7,6 +7,7 @@ using BasicApiNet.Core.Repository;
 using BasicApiNet.Core.Services;
 using BasicApiNet.Middleware;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,17 +49,12 @@ builder.Services.AddProblemDetails();
 #endregion
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-// Seed database
-//Seed.EnsureSeedData(app.Services).GetAwaiter().GetResult();
-await Seed.EnsureSeedData(app.Services);
 
 app.UseExceptionHandler();
 
@@ -68,6 +64,22 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.MapControllers();
+
+// Configuración del middleware de validación de token de antifalsificación
+app.Use(async (_, next) =>
+{
+    var mvcOptions = app.Services.GetRequiredService<MvcOptions>();
+    mvcOptions.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    await next.Invoke();
+});
+
+// Seed database
+await Seed.EnsureSeedData(app.Services);
 
 app.Run();
