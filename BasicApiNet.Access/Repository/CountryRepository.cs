@@ -16,7 +16,6 @@ public class CountryRepository(ApplicationDbContext context) : ICountryRepositor
     public async Task<Country> GetCountryByIdAsync(int id)
     {
         var country = await context.Countries.FindAsync(id);
-        NotFoundException.ThrowIfNull(country);
         return country;
     }
 
