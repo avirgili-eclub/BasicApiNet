@@ -49,6 +49,7 @@ public class CountryService : ICommonService<Country>
             var country = await _repository.GetByIdAsync(id);
             if (country == null)
             {
+                //Si se implementa una excepcion personalizada se puede manejar de manera mas especifica el not found.
                 throw new Exception("Country not found");
             }
             _context.Entry(country).Collection(c => c.Cities).Load();
@@ -96,6 +97,7 @@ public class CountryService : ICommonService<Country>
             var country = _repository.GetByIdAsync(id);
             if (country == null)
             {
+                //Si se implementa una excepcion personalizada se puede manejar de manera mas especifica el not found.
                 throw new Exception("Country not found");
             }
 

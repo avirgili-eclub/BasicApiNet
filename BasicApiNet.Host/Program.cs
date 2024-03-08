@@ -13,28 +13,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders().AddConsole();
 // Add logging
 builder.Services.AddLogging();
-// builder.Services.AddControllersWithViews().AddJsonOptions(options =>
-// {
-//     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-// });
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers();
 
 //Sql Dependency Injection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseSqlite(connectionString));
 
-builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c=>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basic API", Version = "v1" });
 });
+
 #region Service Injected
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(ICityRepository), typeof(CityRepository));
