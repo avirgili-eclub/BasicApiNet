@@ -26,6 +26,34 @@ public class CountryController : ControllerBase
         var response = _service.GetAll().ToList();
         return Task.FromResult<IActionResult>(Ok(response));
     }
+    
+    /// <summary>
+    /// Retrieve a country by its id.
+    /// </summary>
+    /// <param name="id">The id of the country to retrieve.</param>
+    /// <returns>Returns the country with the specified id.</returns>
+    [HttpGet("{id}")]
+    [SwaggerOperation(Summary = "Get country by id", Description = "Retrieve a country by id.")]
+    [SwaggerResponse(200, "Success", typeof(Country))]
+    [SwaggerResponse(400, "Bad Request", typeof(string))]
+    [SwaggerResponse(500, "Internal Server Error", typeof(string))]
+    public async Task<IActionResult> GetCountry(int id)
+    {
+        if (id is 0 or < 0)
+        {
+            return BadRequest("Invalid id");
+        }
+
+        try
+        {
+            var response = await _service.FinByIdAsync(id);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, $"Internal server error: {e.Message}");
+        }
+    }
 
     [HttpPost]
     [SwaggerOperation(Summary = "Create country", Description = "Create a country.")]
@@ -102,29 +130,7 @@ public class CountryController : ControllerBase
             return StatusCode(500, $"Internal server error: {e.Message}");
         }
     }
-
-    [HttpGet("{id}")]
-    [SwaggerOperation(Summary = "Get country by id", Description = "Retrieve a country by id.")]
-    [SwaggerResponse(200, "Success", typeof(Country))]
-    [SwaggerResponse(400, "Bad Request", typeof(string))]
-    [SwaggerResponse(500, "Internal Server Error", typeof(string))]
-    public async Task<IActionResult> GetCountry(int id)
-    {
-        if (id is 0 or < 0)
-        {
-            return BadRequest("Invalid id");
-        }
-
-        try
-        {
-            var response = await _service.FinByIdAsync(id);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, $"Internal server error: {e.Message}");
-        }
-    }
+    
 
     [HttpDelete("{id}")]
     [SwaggerOperation(Summary = "Delete country by id", Description = "Delete a country by id.")]

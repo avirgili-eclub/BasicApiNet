@@ -18,7 +18,7 @@ public class CityRepository /*(DataContext context)*/ : ICityRepository
 
     public async Task<IEnumerable<City?>> GetCitiesAsync()
     {
-        return await _context.Cities.ToListAsync();
+        return await _context.Cities.AsQueryable().OrderBy(c => c.CountryId).ToListAsync();
     }
 
     public async Task<City> GetCityByIdAsync(int id)

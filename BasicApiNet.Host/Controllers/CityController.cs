@@ -22,6 +22,13 @@ public class CityController : ControllerBase
         Task<IEnumerable<City?>> response = _service.GetAllCities();
         return Ok(response);
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<City>> GetById(int id)
+    {
+        var response = await _service.FindCityById(id);
+        return Ok(response);
+    }
 
     [HttpPost]
     public async Task<ActionResult<bool>> Create(City city)
@@ -29,13 +36,7 @@ public class CityController : ControllerBase
         await _service.CreateCity(city);
         return Ok(true);
     }
-
-    [HttpGet]
-    public async Task<ActionResult<City>> GetById(int id)
-    {
-        var response = await _service.FindCityById(id);
-        return Ok(response);
-    }
+    
 
     [HttpPut]
     public async Task<ActionResult<bool>> Update(CityDto city)
