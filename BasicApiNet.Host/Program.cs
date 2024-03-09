@@ -1,3 +1,4 @@
+using System.Text;
 using BasicApiNet.Access;
 using BasicApiNet.Access.Data;
 using BasicApiNet.Access.Repository;
@@ -6,10 +7,11 @@ using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Repository;
 using BasicApiNet.Core.Services;
 using BasicApiNet.Middleware;
-using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +28,59 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c=>
+builder.Services.AddSwaggerGen(o=>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basic API", Version = "v1" });
+    o.SwaggerDoc("v1", new OpenApiInfo { Title = "Basic API", Version = "v1", Description = "Basic API"});
+    
+    o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    o.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            //TODO: Implement later roles or scopes required to access endpoints
+            new string[]{}
+        }
+    });
+    
 });
+
+//TODO: implement the secret key from AWS Secrets Manager or Azure Key Vault 
+
+var secretKey = builder.Configuration["JwtSettings:SecretKey"];
+
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "UMBRELLA",
+            ValidAudience = "http://localhost:5228", // for future reference: should match the 'audience' parameter in JwtSecurityToken
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
+        };
+    });
 
 #region Service Injected
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -59,6 +110,8 @@ app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

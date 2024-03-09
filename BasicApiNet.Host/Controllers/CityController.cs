@@ -1,11 +1,13 @@
 using BasicApiNet.Core.Dtos;
 using BasicApiNet.Core.Models;
 using BasicApiNet.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BasicApiNet.Host.Controllers;
 
 [Route("api/[controller]/[action]")]
+[Authorize]
 [ApiController]
 public class CityController : ControllerBase
 {
