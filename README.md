@@ -1,4 +1,6 @@
 # BasicApiNet
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d18fb5699b7b4093a718170289139a0a)](https://app.codacy.com/gh/avirgili-eclub/BasicApiNet?utm_source=github.com&utm_medium=referral&utm_content=avirgili-eclub/BasicApiNet&utm_campaign=Badge_Grade)
+
 <p>This is a basic example of a web API built on .NET Core 8. The main goal of this API is to demonstrate basic CRUD (Create, Read, Update, Delete) operations using two main entities: <code>Country</code> and <code>City</code>.</p>
 
 <h2>Key Features</h2>
