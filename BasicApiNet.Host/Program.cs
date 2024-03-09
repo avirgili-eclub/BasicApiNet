@@ -41,8 +41,6 @@ builder.Services.AddScoped<ICountryService, CountryService>();
 #endregion
 
 #region other services injected
-builder.Services.AddSingleton<IExceptionHandler, NotFoundExceptionHandler>();
-builder.Services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
