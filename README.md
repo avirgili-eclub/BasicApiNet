@@ -69,7 +69,7 @@
 <h2>Usage</h2>
 
 <ul>
-  <li>Once the application is running, you first have to login to generate the jwt token, copy the token to access protected endpoints.</li>
+  <li>Once the application is running, you first have to login (admin:admin123) to generate the jwt token, copy the token to access protected endpoints.</li>
   <li>Once you have the token set you can make HTTP requests via the API to perform CRUD operations on the <code>Country</code> and <code>City</code> entities.</li>
   <li>Make sure to review the API documentation to learn about the available endpoints and their respective operations.</li>
 </ul>
